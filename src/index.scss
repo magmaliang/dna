@@ -1,0 +1,23 @@
+html, body{
+  height: 100%;
+}
+#app {
+  padding: 20px;
+  height: 100%;
+  .demo-container{
+    display: flex;
+    height: 100%;
+    .input-block{
+      width: 400px;
+      textarea{
+        height: 90%;
+        width: 90%;
+      }
+    }
+    .demo-display-block{
+      padding: 20px;
+      flex: 1;
+      border-left: 1px solid #ddd;
+    }
+  }
+}
