@@ -29,6 +29,7 @@ var defaultFormDsl = {
     "fieldKey": "resource",
     "dataMap": ["/getTypes"],
     "_type": "Field_Sug",
+    "_id": '1',
     "_meta": {
       "visible": true,
       "enable": true,
@@ -37,21 +38,46 @@ var defaultFormDsl = {
     },
     "configEnum": "",
     "validation": "required",
-    "defaultValue": "${presetType}"
+    "defaultValue": "${presetType}",
+    "xactions": [
+      {
+        "source": {
+          "action": "valueChange", /*事件类型*/ 
+          "trigger": 'value == "2"' /*触发条件, 不写时表示直接触发*/
+        },
+        // 目标事件源信息，source 和 target 的
+        "target": [{
+          "_cmp": '2', /*使用组件的id*/
+          "action": 'unVisible' 
+        }]
+      },{
+        "source": {
+          "action": "valueChange", /*事件类型*/ 
+          "trigger": 'value != "2"' /*触发条件, 不写时表示直接触发*/
+        },
+        // 目标事件源信息，source 和 target 的
+        "target": [{
+          "_cmp": '2', /*使用组件的id*/
+          "action": 'visible' 
+        }]
+      }
+    ]
   }, {
     "fieldName": "工作组ID",
     "validationRules": [],
     "fieldKey": "id",
     "dataMap": [],
     "_type": "Field_Input",
+    "_id": '2',
     "_meta": {
-      "visible": false,
+      "visible": true,
       "enable": true,
       "status": "",
       "multi": false
     },
     "configEnum": "",
-    "validation": ""
+    "validation": "",
+    "defaultValue": "ascasc",
   }, {
     "fieldName": "用户组名称",
     "validationRules": [{
@@ -61,6 +87,7 @@ var defaultFormDsl = {
     "fieldKey": "name",
     "dataMap": [],
     "_type": "Field_Input",
+    "_id": '3',
     "_meta": {
       "visible": true,
       "enable": true,

@@ -1,8 +1,6 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-27 17:57:35 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2018-09-01 15:06:54
  * @desc 抽象类组件，对field组件的通用行为进行统一管理
  * 所有field组件都是受控组件
  */
@@ -37,7 +35,7 @@ export default class AbstractField extends Component {
   }
 
   filterProps(defalutValue = ''){
-    return Object.assign(pickKeys(this.props, ['id', '_type', 'value']), {
+    return Object.assign(pickKeys(this.props, ['id', '_type', 'value', 'xactions']), {
       onChange: this.fieldChange
     })
   }

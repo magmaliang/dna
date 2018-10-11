@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-10-11 12:31:22
+ * @Last Modified time: 2018-10-11 22:55:56
  * @desc： form 组件, 目前比较简单，后面需要出完整的设计
  */
 
@@ -14,6 +14,7 @@ import Fields from "./fields";
 import {validating, formatRules} from "./fields/validator";
 import {pickKeys, getKey, filterFields, getUrlFromUrlObj, contextFill} from "./utils";
 import request from "utils/request";
+import fieldsXActionHandler from "./core/x-actions";
 
 // layout set
 const formItemLayout = {
@@ -67,6 +68,10 @@ class DnaForm extends Component {
   componentWillReceiveProps(nextProps){
     this.setState({
       fields: filterFields(nextProps.fields)
+    }, ()=>{
+      this.collectValidators()
+      this.fillDataMap()
+      this.tryFetchData()
     })
   }
 
@@ -97,8 +102,7 @@ class DnaForm extends Component {
    */
   createFields(){
     const { formData ,fields} = this.state;
-    
-    return fields.map((x,index) => {
+    return fields.filter(x=>x._meta.visible).map((x, index) => {
       // 1. 计算Item相关
       let itemProps = {
         ...formItemLayout,
@@ -119,12 +123,13 @@ class DnaForm extends Component {
       // 2. 计算 Cmp相关, form的status会作为默认值传给Field
       let Cmp = Fields.getDefFromField(x, this.getFormMeta());
 
-      let fieldProps = {
+      let fieldProps = Object.assign({}, x, {
         _type: x._type,
         _meta: x._meta,
         value: formData[x.fieldKey],
         fieldKey: x.fieldKey
-      }
+      })
+
       // 如果组件有dataMap, 则从state.Map中取得填充后的dataMap
       if (x.dataMap && x.dataMap.length > 0) {
         fieldProps.dataMap = this.state.dataMap[x.fieldKey] || []
@@ -155,11 +160,12 @@ class DnaForm extends Component {
   }
 
   // field子组件数据更新时的回调
-  setFieldValue = (fieldInfo, value, addtion)=>{
+  setFieldValue = (fieldInfo, value)=>{
     let fieldKey = fieldInfo.fieldKey;
+    console.log(`${fieldKey}:  ${value}`)
     this.state.formData[fieldKey] = value;
 
-    // 实时验证
+    // 1. just in time validator
     if (this.state.fieldAutoValidator) {
       validating({[fieldKey] : value}, {[fieldKey]: this.state.validators[fieldKey]})
       .then(res => {
@@ -172,16 +178,19 @@ class DnaForm extends Component {
       })
     }
 
-    // format: 如果是非文本,非树，则要增加[fieldKey + 'Value']字段
-    if (!['Field_Input', 'Field_GroupTree'].includes(fieldInfo._type) && fieldInfo._meta.extendValue) {
-      let dataMap = this.state.dataMap[fieldKey] || [];
-      // 单选的sug会导致value为string ,兼容
-      if (typeof value === 'string') {
-        value = [value]
+    // 2. deal with xaction 
+    if (fieldInfo.xactions) {
+      let matchedAction = fieldInfo.xactions.filter(x=>x.source.action === 'valueChange');
+      if (matchedAction && matchedAction.length > 0) {
+        fieldsXActionHandler(this.state.fields, {
+          fieldInfo,
+          action: matchedAction,
+          eventName: 'valueChange',
+          value
+        })
       }
-      let strValue = value.map(x => (dataMap.find(y=>y.key == x) || {}).value)
-      this.state.formData[fieldKey + 'Value'] = strValue.join(',')
     }
+    
     this.setState({})
   }
   
@@ -240,7 +249,6 @@ class DnaForm extends Component {
    */
   fillDataMap = ()=>{
     let fieldsWithDataMap = this.state.fields.filter(x => x.dataMap && x.dataMap.length > 0);
-    
     fieldsWithDataMap.forEach(x=>{
       // 直接可用的dataMap
       if (typeof x.dataMap[0] == 'object') {
