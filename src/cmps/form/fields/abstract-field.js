@@ -35,7 +35,7 @@ export default class AbstractField extends Component {
   }
 
   filterProps(defalutValue = []){
-    return Object.assign({value: ''}, pickKeys(this.props, ['id', '_type', 'value', 'xactions'].concat(defalutValue)), {
+    return Object.assign({value: ''}, pickKeys(this.props, ['id', '_type', 'value', 'xactions', 'disabled'].concat(defalutValue)), {
       onChange: this.fieldChange
     })
   }

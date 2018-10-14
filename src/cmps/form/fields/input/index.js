@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-10-14 14:33:57
+ * @Last Modified time: 2018-10-14 15:22:16
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
@@ -15,7 +15,7 @@ export default class FieldInput extends AbstractField {
   }
 
   render(){
-    return <Input {...this.filterProps(['disabled'])}/>
+    return <Input {...this.filterProps()}/>
   }
 
   fieldChange = (value) => {
