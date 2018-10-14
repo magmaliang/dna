@@ -1,8 +1,8 @@
 /*
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-20 16:50:33 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2018-08-29 03:33:32
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-10-14 14:33:57
  * @Desc: Field_Input field, write this for a sample
  */
 import React from "react";
@@ -15,12 +15,12 @@ export default class FieldInput extends AbstractField {
   }
 
   render(){
-    return <Input {...this.filterProps()}/>
+    return <Input {...this.filterProps(['disabled'])}/>
   }
 
-  fieldChange = (value, addtion) => {
+  fieldChange = (value) => {
     if (value && value.target) {
-      this.props.fieldChange(this.props, value.target.value, addtion)
+      this.props.fieldChange(this.props, value.target.value)
     }
   }
 }

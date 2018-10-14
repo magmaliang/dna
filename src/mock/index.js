@@ -21,3 +21,14 @@ Mock.mock('/getTypes',[{
   'key': 3
 }])
 
+Mock.mock('/getGender',[{
+  'value': '男',
+  'key': 1
+},{
+  'value': '女',
+  'key': 2
+},{
+  'value': '未知',
+  'key': 3
+}])
+

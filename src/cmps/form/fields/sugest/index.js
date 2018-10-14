@@ -1,8 +1,8 @@
 /*
  * @Author: 宋慧武 
  * @Date: 2018-08-27 19:04:38 
- * @Last Modified by: lianglongfei001@lianjia.com
- * @Last Modified time: 2018-09-19 17:55:22
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-10-14 14:00:00
  */
 import React from 'react';
 import AbstractField from "../abstract-field";
@@ -26,12 +26,7 @@ class FieldSelect extends AbstractField {
   }
 
   render() {
-    if (this.props.value && !Array.isArray(this.props.value)) {
-      this.onChange(this.props.value.split(','))
-    }
-
     let opts = {}
-
     if (this.props._meta.multi === true) {
       opts.mode = 'multiple'
     }

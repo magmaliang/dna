@@ -34,9 +34,25 @@ export default class AbstractField extends Component {
     this.props.fieldChange(this.props, value, addtion)
   }
 
-  filterProps(defalutValue = ''){
-    return Object.assign(pickKeys(this.props, ['id', '_type', 'value', 'xactions']), {
+  filterProps(defalutValue = []){
+    return Object.assign({value: ''}, pickKeys(this.props, ['id', '_type', 'value', 'xactions'].concat(defalutValue)), {
       onChange: this.fieldChange
     })
+  }
+
+  /**
+   * check if obj is empty: null or etc
+   * @param {*} obj 
+   */
+  isEmpty(obj){
+    if (Array.isArray(obj)) {
+      if (obj.length > 0) {
+        return false
+      }
+
+      return true
+    } 
+
+    return !!obj;
   }
 }

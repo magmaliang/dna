@@ -31,9 +31,8 @@ var defaultFormDsl = {
     "_type": "Field_Sug",
     "_id": '1',
     "_meta": {
-      "visible": true,
-      "enable": true,
-      "status": "",
+      "status": 'edit', //'disabled/edit/detail',不写的时候从父组件继承
+      "visiable": true,
       "multi": false
     },
     "configEnum": "",
@@ -49,6 +48,9 @@ var defaultFormDsl = {
         "target": [{
           "_cmp": '2', /*使用组件的id*/
           "action": 'unVisible' 
+        },{
+          "_cmp": '3', /*使用组件的id*/
+          "action": 'disable' 
         }]
       },{
         "source": {
@@ -59,9 +61,27 @@ var defaultFormDsl = {
         "target": [{
           "_cmp": '2', /*使用组件的id*/
           "action": 'visible' 
+        },{
+          "_cmp": '3', /*使用组件的id*/
+          "action": 'enable' 
         }]
       }
     ]
+  },{
+    "fieldName": "性别",
+    "validationRules": [],
+    "fieldKey": "gender",
+    "dataMap": ["/getGender"],
+    "_type": "Field_Radio",
+    "_id": '4',
+    "_meta": {
+      "visible": true,
+      "status": "edit",
+      "multi": false
+    },
+    "configEnum": "",
+    "validation": "",
+    "defaultValue": "ascasc",
   }, {
     "fieldName": "工作组ID",
     "validationRules": [],
@@ -71,8 +91,7 @@ var defaultFormDsl = {
     "_id": '2',
     "_meta": {
       "visible": true,
-      "enable": true,
-      "status": "",
+      "status": "edit",
       "multi": false
     },
     "configEnum": "",
@@ -90,8 +109,7 @@ var defaultFormDsl = {
     "_id": '3',
     "_meta": {
       "visible": true,
-      "enable": true,
-      "status": "",
+      "status": "edit",
       "multi": false
     },
     "configEnum": "",
@@ -129,8 +147,11 @@ export default class FormDemo extends Component {
 
   jsonChange = (e)=>{
     let value = e.target.value;
-    this.setState({dsl: JSON.parse(value), dslText: value}, ()=>{
-      console.log(this.state.dsl.fields)
-    })
+    this.setState({dslText: value});
+    try {
+      this.setState({dsl: JSON.parse(value)})
+    } catch (error) {
+      console.warn('unresonable json string!');
+    }
   }
 }

@@ -47,20 +47,22 @@ export function filterFields(fields = [], parentContext = {}){
   fields.forEach(x=>{
      x._meta = Object.assign({
        visible: true,
-       enable: true,
        status: parentContext.status,
        extendValue: true
      }, x._meta)
 
-     // 如果是展示状态的组件，则直接转化为disable-field
-     if (x._meta.enable === false) {
+     // 如果是展示状态的组件，则直接转化为detail-field
+     if (x._meta.status === 'detail') {
        x._originType = x._type;
-       x._type = 'Field_DisabledField'
+       x._type = 'Field_DetailField'
+     }
+
+     if (x._meta.status === 'disabled') {
+       x.disabled = true;
      }
   })
 
-
-  let visibleFields = fields.filter(x => x._meta.visible)
+  const visibleFields = fields.filter(x => x._meta.visible)
 
   return visibleFields
 }

@@ -29,10 +29,12 @@ const xactionDealMap = {
     target._meta.visible = false;
   },
   enable: function(target) {
-    target._meta.enable = true;
+    target._meta.disabled = false;
+    target.disabled = false;
   },
   disable: function(target) {
-    target._meta.enable = false;
+    target._meta.disabled = true;
+    target.disabled = true;
   },
   flashDataMap: function(target) {
     

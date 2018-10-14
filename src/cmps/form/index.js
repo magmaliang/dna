@@ -2,8 +2,8 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-10-11 22:55:56
- * @desc： form 组件, 目前比较简单，后面需要出完整的设计
+ * @Last Modified time: 2018-10-14 14:30:37
+ * @desc： dnaform 
  */
 
 import React,{ Component } from "react";
@@ -61,7 +61,6 @@ class DnaForm extends Component {
     // create的表单需要显示默认值
     if (this.state.status === 'create') {
       this.state.formData = this.collectDefaultValue()
-      console.log('defaultvalue', this.state.formData)
     }
   }
 
@@ -148,7 +147,7 @@ class DnaForm extends Component {
 
   handleSubmit = (e)=>{
     e.preventDefault();
-    validating(this.state.formData, this.state.validators).then(res=>{
+    validating(this.state.formData, this.state.validators).then(res => {
       this.formSave()
     }).catch(err => {
       // err 回显示
@@ -285,6 +284,7 @@ class DnaForm extends Component {
         values[x.fieldKey] = contextFill(x.defaultValue, {}, this.props.dnaContext)
       }
     })
+    console.log('default-value: ', values)
     return values
   }
 }
