@@ -1,5 +1,11 @@
 html, body{
   height: 100%;
+  .CodeMirror {
+    border: 1px solid #eee;
+    height: 100%;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+  }
 }
 #app {
   padding: 20px;
@@ -8,7 +14,7 @@ html, body{
     display: flex;
     height: 100%;
     .input-block{
-      width: 400px;
+      flex: 1;
       textarea{
         height: 90%;
         width: 90%;
@@ -16,7 +22,7 @@ html, body{
     }
     .demo-display-block{
       padding: 20px;
-      flex: 1;
+      flex: 2;
       border-left: 1px solid #ddd;
     }
   }

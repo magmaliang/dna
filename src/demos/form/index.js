@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import { Input } from "antd";
+// import { Input } from "antd";
 import Form from "cmps/form";
+import * as CodeMirror from 'codemirror/lib/codemirror'
+import 'codemirror/theme/monokai.css';
+import 'codemirror/theme/elegant.css';
+import 'codemirror/mode/javascript/javascript'
 
 var defaultFormDsl = {
   "createSaveUrl": {
@@ -134,10 +138,12 @@ export default class FormDemo extends Component {
 
     return <>
       <div className="input-block">
-        <Input.TextArea 
+        <textarea
+          id="editor"
+          className="form-control"
           value={this.state.dslText}
           onChange={this.jsonChange}
-        ></Input.TextArea>
+        ></textarea>
       </div>
       <div className="demo-display-block">
         <Form {...this.state.dsl} dnaContext={dnaContext}></Form>
@@ -145,9 +151,21 @@ export default class FormDemo extends Component {
     </>
   }
 
-  jsonChange = (e)=>{
-    let value = e.target.value;
-    this.setState({dslText: value});
+  componentDidMount(){
+    let myTextarea = document.getElementById('editor');
+    this.CodeMirrorEditor = CodeMirror.fromTextArea(myTextarea, {
+      mode: {name:'javascript', json: true},//编辑器语言
+      theme: 'monokai', //编辑器主题
+      extraKeys: {"Ctrl": "autocomplete"},//ctrl可以弹出选择项 
+      lineNumbers: true //显示行号,
+    });
+
+    this.CodeMirrorEditor.on('change', this.jsonChange)
+  }
+
+  jsonChange = (codemirror, event)=>{
+    let value = codemirror.doc.getValue();
+    // this.setState({dslText: value});
     try {
       this.setState({dsl: JSON.parse(value)})
     } catch (error) {
