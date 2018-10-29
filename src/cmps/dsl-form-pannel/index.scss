@@ -1,0 +1,31 @@
+.dsl-generator-form{
+  display: flex;
+  .dsl-elements-container{
+    flex: 1;
+    padding: 10px;
+    border-right: 1px dashed #ddd;
+    .avatar-field {
+      display: flex;
+      align-items: center;
+      .ant-form-item {
+        display: flex;
+        flex: 1;
+        margin: 0;
+      }
+      .ant-btn-icon-only{
+        margin-left: 10px;
+      }
+    }
+  }
+  .dsl-state-pannel{
+    flex: 3;
+    padding: 10px;
+  }
+}
+
+.react-grid-item .ant-form-item{
+  display: flex;
+}
+
+
+

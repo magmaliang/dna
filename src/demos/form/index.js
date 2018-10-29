@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-// import { Input } from "antd";
 import Form from "cmps/form";
 import * as CodeMirror from 'codemirror/lib/codemirror'
 import 'codemirror/theme/monokai.css';
@@ -165,7 +164,6 @@ export default class FormDemo extends Component {
 
   jsonChange = (codemirror, event)=>{
     let value = codemirror.doc.getValue();
-    // this.setState({dslText: value});
     try {
       this.setState({dsl: JSON.parse(value)})
     } catch (error) {
