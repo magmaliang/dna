@@ -1,7 +1,8 @@
 import React from "react";
-import AvatarMap from "./avatar-map";
 import {Form, Button } from "antd";
 
+import InputAvatar from "./avatars/text-input";
+import CheckboxAvatar from "./avatars/checkbox-group";
 
 function avatarWrap(Avatar){
   return class Hoc extends React.Component {
@@ -19,18 +20,9 @@ function avatarWrap(Avatar){
   }
 }
 
-export default class ElementAvatars extends React.Component {
-  render(){
-    const list = this.props.avatars.map((Cmp,i) => {
-      Cmp = avatarWrap(Cmp)
-      return <Cmp key={i} addAvatar={this.props.addAvatar}></Cmp>
-    })
-    return <>
-      {list}
-    </>
-  }
-}
 
-ElementAvatars.defaultProps = {
-  avatars: Object.values(AvatarMap)
+
+export default {
+  Field_Input: InputAvatar,
+  Field_Checkbox: CheckboxAvatar
 }

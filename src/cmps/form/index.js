@@ -2,7 +2,7 @@
  * @Author: lianglongfei001@lianjia.com 
  * @Date: 2018-08-28 12:24:11 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-10-14 14:30:37
+ * @Last Modified time: 2018-11-02 22:52:48
  * @desc： dnaform 
  */
 
@@ -66,7 +66,8 @@ class DnaForm extends Component {
 
   componentWillReceiveProps(nextProps){
     this.setState({
-      fields: filterFields(nextProps.fields)
+      fields: filterFields(nextProps.fields),
+      formData: nextProps.formData
     }, ()=>{
       this.collectValidators()
       this.fillDataMap()
@@ -161,7 +162,7 @@ class DnaForm extends Component {
   // field子组件数据更新时的回调
   setFieldValue = (fieldInfo, value)=>{
     let fieldKey = fieldInfo.fieldKey;
-    console.log(`${fieldKey}:  ${value}`)
+    // console.log(`${fieldKey}:  ${value}`)
     this.state.formData[fieldKey] = value;
 
     // 1. just in time validator
@@ -190,7 +191,11 @@ class DnaForm extends Component {
       }
     }
     
-    this.setState({})
+    this.setState({}, () => {
+      if (this.props.formDataChange) {
+        this.props.formDataChange(this.state.formData)
+      }
+    })
   }
   
   /**

@@ -1,21 +1,25 @@
+/*
+ * @Author: mikey.zhaopeng 
+ * @Date: 2018-10-31 15:22:55 
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2018-11-02 22:50:39
+ * @Desc: 编排生成DSL的舞台 
+ */
+
 import React from "react";
+import { Form } from "antd";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import { Responsive, WidthProvider } from "react-grid-layout";
-import InputAvatar from "../elements-avatar/avatars/text-input";
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
+import Fields from "cmps/form/fields";
+import { filterFields } from "cmps/form/utils";
 
-export default class ShowcaseLayout extends React.Component {
+import RGL, { WidthProvider } from "react-grid-layout";
+const ReactGridLayout = WidthProvider(RGL);
+
+export default class FormStage extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentBreakpoint: "lg",
-      compactType: "vertical",
-      mounted: false
-    };
-
-    this.onBreakpointChange = this.onBreakpointChange.bind(this);
-    this.onCompactTypeChange = this.onCompactTypeChange.bind(this);
+    this.state = {};
     this.onLayoutChange = this.onLayoutChange.bind(this);
   }
 
@@ -23,69 +27,65 @@ export default class ShowcaseLayout extends React.Component {
     this.setState({ mounted: true });
   }
 
-  // ? 根据描述字段生成组件化身的排列
+  // ? 根据描述字段生成组件化身的排列, 需要重构
   generateDOM() {
-    return _.map(this.props.layouts.lg, function(l, i) {
+    return _.map(this.props.layout, (l, i) => {
+      let {dsl} = l;
+      let Cmp = Fields.getDefFromField(dsl)
+
+      // 适配 form 的文件
+      dsl = filterFields([dsl])[0]
+      let fieldProps = Object.assign({}, dsl, {
+        _type: dsl._type,
+        _meta: dsl._meta,
+        value: dsl.defaultValue,
+        fieldKey: dsl.fieldKey
+      })
+
       return (
-        <div key={i} >
-          <InputAvatar></InputAvatar>
+        <div key={dsl._id} data-grid={l} className="field-display" onClick={this.avatarActive.bind(this, l)} >
+          <Form.Item
+            label={dsl.fieldName}
+          >
+            <Cmp {...fieldProps} />
+          </Form.Item>
         </div>
       );
     });
   }
 
-  onBreakpointChange(breakpoint) {
-    this.setState({
-      currentBreakpoint: breakpoint
-    });
+  avatarActive(dsl){
+   this.props.avatarActive(dsl)
   }
 
-  onCompactTypeChange() {
-    this.setState({ });
-  }
-
-  onLayoutChange(layout, layouts) {
-    this.props.onLayoutChange(layout, layouts);
+  onLayoutChange(layout) {
+    this.props.onLayoutChange(layout);
   }
 
   render() {
-    console.log(this.props.layouts)
     return (
       <div>
-        <div>
-          Current Breakpoint: {this.state.currentBreakpoint} ({
-            this.props.cols[this.state.currentBreakpoint]
-          }{" "}
-          columns)
-        </div>
-        <div>
-          Compaction type:{" "}
-          {_.capitalize(this.state.compactType) || "No Compaction"}
-        </div>
         <button onClick={this.onCompactTypeChange}>
           2 columns
         </button>
-        <ResponsiveReactGridLayout
+        <ReactGridLayout
           {...this.props}
           onLayoutChange={this.onLayoutChange}
-          measureBeforeMount={false}
-          useCSSTransforms={this.state.mounted}
-          compactType={this.state.compactType}
         >
           {this.generateDOM()}
-        </ResponsiveReactGridLayout>
+        </ReactGridLayout>
       </div>
     );
   }
 }
 
-ShowcaseLayout.propTypes = {
+FormStage.propTypes = {
   onLayoutChange: PropTypes.func.isRequired
 };
 
-ShowcaseLayout.defaultProps = {
+FormStage.defaultProps = {
   className: "layout",
   rowHeight: 43,
-  onLayoutChange: function() {},
-  cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 }
+  cols: 6,
+  width: 1200
 };

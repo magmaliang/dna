@@ -1,10 +1,21 @@
 import React from "react";
-import { Input, Form } from "antd";
+import { Input} from "antd";
+import Avatar from "./avatar";
 
-export default class DSLInputDemo extends React.Component{
-  render(){
-    return <Form.Item label='字段名'>
-      <Input placeholder="placeholder" disabled={true} />
-  </Form.Item>
+export default class InputAvatar extends Avatar {
+  render() {
+    return <Input placeholder="placeholder" disabled={true} />
   }
+}
+
+InputAvatar.dsl = {
+  "fieldName": "文本框",
+  "validationRules": [],
+  "_type": "Field_Input",
+  "_meta": {
+    "status": 'edit',
+    "visible": true
+  },
+  "defaultValue": "默认值",
+  "xactions": []
 }
