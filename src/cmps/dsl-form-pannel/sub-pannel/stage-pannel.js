@@ -2,7 +2,7 @@
  * @Author: mikey.zhaopeng 
  * @Date: 2018-10-31 15:22:55 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-11-02 22:50:39
+ * @Last Modified time: 2019-05-27 12:37:09
  * @Desc: 编排生成DSL的舞台 
  */
 
@@ -10,8 +10,36 @@ import React from "react";
 import { Form } from "antd";
 import PropTypes from "prop-types";
 import _ from "lodash";
-import Fields from "cmps/form/fields";
-import { filterFields } from "cmps/form/utils";
+import {Fields} from "@dna-js/dna-form";
+
+/**
+ * 格式化fields数组，主要用于添加默认值
+ * @param {*} fields 
+ */
+function filterFields(fields = [], parentContext = {}){
+  // 补全默认值
+  fields.forEach(x=>{
+     x._meta = Object.assign({
+       visible: true,
+       status: parentContext.status,
+       extendValue: true
+     }, x._meta)
+
+     // 如果是展示状态的组件，则直接转化为detail-field
+     if (x._meta.status === 'detail') {
+       x._originType = x._type;
+       x._type = 'Field_DetailField'
+     }
+
+     if (x._meta.status === 'disabled') {
+       x.disabled = true;
+     }
+  })
+
+  const visibleFields = fields.filter(x => x._meta.visible)
+
+  return visibleFields
+}
 
 import RGL, { WidthProvider } from "react-grid-layout";
 const ReactGridLayout = WidthProvider(RGL);
@@ -39,7 +67,8 @@ export default class FormStage extends React.Component {
         _type: dsl._type,
         _meta: dsl._meta,
         value: dsl.defaultValue,
-        fieldKey: dsl.fieldKey
+        fieldKey: dsl.fieldKey,
+        reloadingDataMap: ()=>{}
       })
 
       return (

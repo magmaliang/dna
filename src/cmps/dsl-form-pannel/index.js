@@ -1,3 +1,10 @@
+/*
+ * @Author: lianglongfei 
+ * @Date: 2019-05-27 11:58:11 
+ * @Last Modified by: mikey.zhaopeng
+ * @Last Modified time: 2019-05-27 12:14:26
+ */
+
 import React from "react";
 import _ from "lodash";
 import StagePannel from "./sub-pannel/stage-pannel";

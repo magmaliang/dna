@@ -14,7 +14,7 @@ function avatarWrap(Avatar){
           <Button type="small" shape="circle" icon="plus" onClick={this.addAvatar}/>
       </div>
     }
-    addAvatar = ()=>{
+    addAvatar = ()=> {
       this.props.addAvatar(Avatar.dsl)
     }
   }

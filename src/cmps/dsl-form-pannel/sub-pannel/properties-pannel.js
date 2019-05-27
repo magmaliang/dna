@@ -2,12 +2,14 @@
  * @Author: mikey.zhaopeng 
  * @Date: 2018-10-31 15:21:28 
  * @Last Modified by: mikey.zhaopeng
- * @Last Modified time: 2018-11-02 22:50:49
+ * @Last Modified time: 2019-05-27 12:23:31
  * @Desc  属性面板
  */
 import React, { Component } from "react";
-import Form from "cmps/form";
+// import Form from "cmps/form";
 import _ from "lodash";
+
+import { DnaBasicForm } from '@dna-js/dna-form';
 
 var defaultFormDsl = {
   "createSaveUrl": {
@@ -27,54 +29,66 @@ var defaultFormDsl = {
     "status": "create"
   },
   "title": "工作组配置",
-  "fields": [{
-    "fieldName": "label名称",
-    "validationRules": [{
-      "help": "请选择类型",
-      "type": "required"
-    }],
-    "fieldKey": "fieldName",
-    "_type": "Field_Input",
-    "_id": '1',
-    "_meta": {
-      "status": 'edit', 
+  "regions": [{
+    "header": {
       "visible": true,
-      "multi": false
+      "title": "工单列表"
     },
-    "validation": "required"
-  }, {
-    "fieldName": "默认值",
-    "validationRules": [],
-    "fieldKey": "defaultValue",
-    "_type": "Field_Input",
-    "_id": '1',
     "_meta": {
-      "status": 'edit', 
-      "visible": true,
-      "multi": false
+      "layout": "triple"
     },
-  }, {
-    "fieldName": "状态",
-    "validationRules": [],
-    "fieldKey": "status",
-    "_type": "Field_Sug",
-    "_id": '1',
-    "_meta": {
-      "status": 'edit', 
-      "visible": true,
-      "multi": false
-    },
-    "dataMap": [{
-      'value': '编辑',
-      'key': 'edit'
-    },{
-      'value': '展示',
-      'key': 'detail'
-    },{
-      'value': '不可用',
-      'key': 'disabled'
+    "fields": [{
+      "fieldName": "label名称",
+      "validationRules": [{
+        "help": "请选择类型",
+        "type": "required"
+      }],
+      "dataMap": [],
+      "fieldKey": "fieldName",
+      "_type": "Field_Input",
+      "_id": '1',
+      "_meta": {
+        "status": 'edit',
+        "visible": true,
+        "multi": false
+      },
+      "validation": "required"
+    }, {
+      "fieldName": "默认值",
+      "validationRules": [],
+      "fieldKey": "defaultValue",
+      "_type": "Field_Input",
+      "dataMap": [],
+      "_id": '1',
+      "_meta": {
+        "status": 'edit',
+        "visible": true,
+        "multi": false
+      },
+    }, {
+      "fieldName": "状态",
+      "validationRules": [],
+      "fieldKey": "status",
+      "_type": "Field_Sug",
+      "_id": '1',
+      "_meta": {
+        "status": 'edit',
+        "visible": true,
+        "multi": false
+      },
+      "dataMap": [{
+        'value': '编辑',
+        'key': 'edit'
+      }, {
+        'value': '展示',
+        'key': 'detail'
+      }, {
+        'value': '不可用',
+        'key': 'disabled'
+      }]
     }]
   }]
+
 }
 
 export default class FormDemo extends Component {
@@ -88,10 +102,10 @@ export default class FormDemo extends Component {
   render(){
     return <>
       <div className="demo-display-block">
-        <Form {...this.state.dsl}
+        <DnaBasicForm {...this.state.dsl}
           formDataChange = {this.formDataChange}
           formData = {this.getFormDataFromDSl()}
-        ></Form>
+        ></DnaBasicForm>
       </div>
     </>
   }

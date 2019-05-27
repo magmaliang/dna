@@ -11,19 +11,22 @@ html, body{
   padding: 20px;
   height: 100%;
   .demo-container {
-    // display: flex;
     height: 100%;
-    .input-block{
-      flex: 1;
-      textarea{
-        height: 90%;
-        width: 90%;
-      }
+  }
+}
+
+.json-design {
+  display: flex;
+  .input-block{
+    flex: 2;
+    textarea{
+      height: 90%;
+      width: 90%;
     }
-    .demo-display-block{
-      padding: 20px;
-      flex: 2;
-      border-left: 1px solid #ddd;
-    }
+  }
+  .demo-display-block{
+    padding: 20px;
+    flex: 1;
+    border-left: 1px solid #ddd;
   }
 }
