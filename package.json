@@ -11,7 +11,7 @@
   "dependencies": {
     "@dna-js/dna-form": "^0.1.62",
     "antd": "^3.19.0",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "codemirror": "^5.40.2",
     "mobx": "^5.9.4",
     "mobx-react": "^5.4.4",
